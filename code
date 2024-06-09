@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Budgeting</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar ul li {
+            display: inline;
+        }
+
+        .navbar ul li a {
+            display: block;
+            padding: 14px 16px;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .navbar ul li a:hover {
+            background-color: #3c5cb9;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .listdrop {
+            display: none;
+            position: absolute;
+            background-color: #000000;
+            min-width: 160px;
+            z-index: 1;
+        }
+
+        .listdrop a {
+            color: #ffffff;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .listdrop a:hover {
+            background-color: #000000;
+        }
+
+        .dropdown:hover .listdrop {
+            display: block;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        .box {
+            width: 32%;
+            height: 300px;
+            border: 3px solid #7700ff;
+            text-align: center;
+            background-color: black;
+            color: white;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .box a {
+            color: white;
+            text-decoration: none;
+            margin-top: auto;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+        }
+
+        .box a:hover {
+            text-decoration: underline;
+        }
+
+        .box.student-tips {
+            background-image: url('https://i.pinimg.com/564x/8d/02/e9/8d02e9209a0868eaf8bfc47e105cb31a.jpg');
+        }
+
+        .box.earning-opportunities {
+            background-image: url('https://i.pinimg.com/originals/63/79/7a/63797a12fc945b97ee8099a41dd374f0.gif');
+        }
+
+        .box.smart-spending {
+            background-image: url('https://i.pinimg.com/564x/68/7c/bc/687cbcada4048b188eff6c7d185c5018.jpg');
+        }
+
+        .image12 {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .image12 img {
+            width: 100%;
+            height: 350px;
+            display: block;
+            position: relative;
+        }
+
+        .bannertext {
+            position: absolute;
+            text-align: center;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border-color: #000000;
+            background-color: rgb(24, 176, 176);
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: larger;
+        }
+
+        #tracktable {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        #tracktable th,
+        #tracktable td {
+            border: 1px solid #000000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #tracktable th {
+            background-color: #f0f0f0;
+        }
+
+        #dropdownrows {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+        }
+
+
+        #add-rows-select {
+            width: 100px;
+            height: 30px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #040490;
+        }
+
+        #rowbutton {
+            width: 100px;
+            height: 30px;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #093d0b;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #rowbutton:hover {
+            background-color: #3e8e41;
+        }
+
+        #expensechart {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+    .budget-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .budget-table th,
+    .budget-table td {
+        border: 1px solid #000000;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .budget-table th {
+        background-color: #f0f0f0;
+    }
+</style>
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="finaltrakcer.html" class="active">Home</a></li>
+            <li><a href="#">Planner and Tracker</a></li>
+            <li class="dropdown">
+                <a href="tips.html" class="dropdown">Financial Tips</a>
+                <div class="listdrop">
+                    <a href="#">Tip 1</a>
+                    <a href="#">Tip 2</a>
+                    <a href="#">Tip 3</a>
+                </div>
+            </li>
+            <li style="margin-left: auto;">
+                <a href="#">About Us</a>
+            </li>
+            <li class="dropdown" style="margin-left: 20px; margin-right: 10px;">
+                <a href="#" class="dropdown" style="margin-right: 5px;">Contact Us</a>
+                <div class="listdrop">
+                    <a href="#">Email</a>
+                    <a href="#">Phone</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div class="image12">
+        <img src="https://i.pinimg.com/564x/c2/b2/80/c2b280d8fa716d6ac5197884e7e33913.jpg">
+        <div class="bannertext">ULTIMATE FINANCE GUIDE FOR STUDENTS</div>
+    </div>
+
+    <div class="container">
+        <div class="box student-tips">
+            <a href="tracker2.html">Student Financial Tips</a>
+        </div>
+
+        <div class="box earning-opportunities">
+            <a href="earning.html">Earning Opportunities for Students</a>
+        </div>
+
+        <div class="box smart-spending">
+            <a href="smartspending.html">Smart Spending Habits</a>
+        </div>
+    </div>
+    <div
+        style="width: 100%; height: 100px; background-color: #000000; display: flex; justify-content: center; align-items: center;">
+        <span style="color: #ffffff; font-size: 24px;">Expense Tracker</span>
+    </div>
+
+    <table id="tracktable">
+        <thead>
+            <tr>
+                <th style="width: 5%">Sr No.</th>
+                <th style="width: 20%">Date</th>
+                <th style="width: 40%">Category</th>
+                <th style="width: 30%">Amount Spent</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <tr>
+                <td><input type="number" value="1"></td>
+                <td><input type="date" value="" id="date" onchange="logDateValue(this.value)"></td>
+                <td>
+                    <select>
+                        <option value="">Select Category</option>
+                        <option value="Food">Food</option>
+                        <option value="Clothes">Clothes</option>
+                        <option value="Housing">Housing</option>
+                        <option value="Essentials">Essentials</option>
+                        <option value="Miscellaneous">Miscellaneous</option>
+                    </select>
+                </td>
+                <td><input type="number" id="amount-1" value="0" onchange="updateTotal()"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="dropdownrows">
+        <select id="add-rows-select">
+            <option value="1">Add 1 row</option>
+            <option value="2">Add 2 rows</option>
+            <option value="3">Add 3 rows</option>
+            <option value="4">Add 4 rows</option>
+            <option value="5">Add 5 rows</option>
+        </select>
+        <button id="rowbutton">Add Rows</button>
+    </div>
+
+    <div id="total-amount">
+        Total Amount Spent: <span id="total-amount-value">0</span>
+    </div>
+
+    <div>
+        <canvas id="expensechart" width="800" height="400"></canvas>
+
+    </div>
+
+    <script>
+        const totalAmountValue = document.getElementById('total-amount-value');
+        const tableBody = document.getElementById('table-body');
+        const addRowsSelect = document.getElementById('add-rows-select');
+        const rowButton = document.getElementById('rowbutton');
+        const ctx = document.getElementById('expensechart').getContext('2d');
+
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Amount Spent',
+                    data: [],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        rowButton.addEventListener('click', () => {
+            const numRowsToAdd = parseInt(addRowsSelect.value);
+            const currentRowCount = tableBody.rows.length;
+            for (let i = 0; i < numRowsToAdd; i++) {
+                const row = tableBody.insertRow();
+                row.innerHTML = `
+                    <td><input type="number" value="${currentRowCount + i + 1}"></td>
+                    <td><input type="date"></td>
+                    <td>
+                        <select>
+                            <option value="">Select Category</option>
+                            <option value="Food">Food</option>
+                            <option value="Clothes">Clothes</option>
+                            <option value="Housing">Housing</option>
+                            <option value="Essentials">Essentials</option>
+                            <option value="Miscellaneous">Miscellaneous</option>
+                        </select>
+                    </td>
+                    <td><input type="number" value="0" onchange="updateTotal()"></td>
+                `;
+            }
+        });
+
+        function updateTotal() {
+            let totalAmount = 0;
+            const amountInputs = tableBody.querySelectorAll('td:nth-child(4) input[type="number"]');
+            chart.data.labels = [];
+            chart.data.datasets[0].data = [];
+
+            amountInputs.forEach((input, index) => {
+                const inputValue = parseInt(input.value, 10);
+                if (!isNaN(inputValue)) {
+                    totalAmount += inputValue;
+                    chart.data.labels.push(`Expense ${index + 1}`);
+                    chart.data.datasets[0].data.push(inputValue);
+                }
+            });
+
+            totalAmountValue.textContent = totalAmount;
+            chart.update();
+        }
+    </script>
+
+<div
+style="width: 100%; height: 100px; background-color: #000000; display: flex; justify-content: center; align-items: center;">
+<span style="color: #ffffff; font-size: 24px;"> Budget Planner
+</span>
+</div>
+<table id="income-expenditure-table">
+    <thead>
+        <tr>
+            <th style="width: 50%">Category</th>
+            <th style="width: 50%">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Income</td>
+            <td><input type="number" id="income-amount" onchange="calculateSavings()"></td>
+        </tr>
+        <tr>
+            <td>Expenditure</td>
+            <td><input type="number" id="expenditure-amount" onchange="calculateSavings()"></td>
+        </tr>
+        <tr>
+            <td>Savings</td>
+            <td><span id="savings-amount">0</span></td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    function calculateSavings() {
+        var income = parseFloat(document.getElementById('income-amount').value) || 0;
+        var expenditure = parseFloat(document.getElementById('expenditure-amount').value) || 0;
+        var savings = income - expenditure;
+        document.getElementById('savings-amount').textContent = savings;
+    }
+</script>
+
+
+</body>
+
+</html>
